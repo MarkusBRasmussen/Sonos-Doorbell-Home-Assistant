@@ -1,0 +1,20 @@
+######## Sonos dørklokke ##########
+doorbell:
+  alias: Doorbell
+  sequence:
+  - service: sonos.snapshot
+    entity_id: media_player.kokken
+  - service: sonos.unjoin
+    entity_id: media_player.kokken
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.kokken
+      volume_level: '0.25' #desired sound level for doorbell mp3
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.kokken
+      media_content_id: http://homeassistant.local:8123/local/door-bell-short.mp3 #link to doorbell mp3
+      media_content_type: 'music'
+  - delay: 00:00:03 #should be around the length of the doorbell mp3
+  - service: sonos.restore
+    entity_id: media_player.kokken
